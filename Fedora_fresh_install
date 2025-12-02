@@ -1,0 +1,36 @@
+#Here is my routine when installing a Fedora OS
+
+#1. Update system
+  sudo dnf update --refresh
+  sudo fwupdmgr refresh
+  sudo fwupdmgr update
+
+#2. Activate RPM Fusion (drivers)
+  sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+#3. Codecs essentials
+  sudo dnf install ffmpeg gstreamer1-plugins-{bad-\*,good-\*,base} gstreamer1-plugin-openh264 gstreamer1-libav --exclude=gstreamer1-plugins-bad-free-devel
+  sudo dnf install lame\* --exclude=lame-devel
+
+#4. FOR MY TINKPAD
+  sudo dnf install kernel-devel akmods
+  sudo akmods --force
+  sudo dnf install tlp tlp-rdw powertop
+  sudo systemctl enable tlp --now
+
+  sudo dnf install libinput-gestures
+  sudo gpasswd -a $USER input
+
+#Reboot
+
+#5. Apps
+  sudo dnf install discord
+  sudo dnf install vlc
+  sudo dnf install dolphin (if not already installed)
+
+
+#6. Optimization
+  #DNF Tunning
+    echo 'fastestmirror=True' | sudo tee -a /etc/dnf/dnf.conf
+    echo 'max_parallel_downloads=10' | sudo tee -a /etc/dnf/dnf.conf
+    echo 'defaultyes=True' | sudo tee -a /etc/dnf/dnf.conf
