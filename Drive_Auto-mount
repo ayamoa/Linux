@@ -1,0 +1,38 @@
+#You want your external or whatever drive to be automount when starting up your device
+
+#1. Find the UUID of the disk, don't use the "ID" like /dev/sdb, not accurate. 
+  sudo blkid
+
+  #You need to take the UUID and the format type (EXT4, exFAT, whatever).
+
+
+#2. Add info of your disk. 
+  sudo nano /etc/fstab
+
+#This is what is already in your file.
+# <Disk UUID>             <Mount Point>                <File System Type>              <Mount Options>     <dump>  <pass>
+
+#This is what your new line should look like
+UUID=<YOUR_UUID_HERE>     /mnt/docker_data             ext4                            defaults,nofail        0       2
+#a                         #b                          #c                               #d                    #e      #f
+
+#a is the disk ID
+#b is the mounting point you want the disk to be mount
+#c is the type of disk format
+#d is the mount options. Those are common 
+#e Specifies whether the file system should be backed up by the dump utility (0 means no).
+#f Specifies the order in which fsck (file system check) will check the file systems at boot. The root file system is usually 1, and secondary data volumes are typically set to 2.
+
+So this is what I have in my FSTAB file 
+  #Line to automount external drive to /mnt
+  UUID=5884-0921 /mnt exfat defaults 0 2
+
+
+#3. Before restarting server, you can ask the system to mount every disks mentionned in fstab file.
+ sudo mount -a
+
+#Normally disk is up, to see result :
+  df -h
+
+
+Finish
